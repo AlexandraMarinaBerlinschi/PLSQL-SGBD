@@ -1,0 +1,1108 @@
+CREATE TABLE Comenzi (
+  ID_Comanda INT PRIMARY KEY,
+  ID_Client INT,
+  DataComanda DATE,
+  StareComanda VARCHAR(50),
+  FOREIGN KEY (ID_Client) REFERENCES Clienti (ID_Client)
+);
+
+CREATE TABLE Clienti (
+  ID_Client INT PRIMARY KEY,
+  Nume VARCHAR(50),
+  Prenume VARCHAR(50),
+  Adresa VARCHAR(100),
+  NrTelefon VARCHAR(20),
+  Email VARCHAR(100)
+);
+
+CREATE TABLE Produse
+(
+    ID_Produs     INT PRIMARY KEY,
+    NumeProdus    VARCHAR(100),
+    Categorie     VARCHAR(50),
+    PretFabricare DECIMAL(10, 2),
+    PretVanzare   DECIMAL(10, 2),
+    Review        VARCHAR(255)
+);
+
+CREATE TABLE Stoc (
+    ID_Stoc INT PRIMARY KEY,
+    Cantitate INT,
+    ID_Comanda INT,
+    ID_Produs INT,
+    FOREIGN KEY (ID_Comanda) REFERENCES Comenzi (ID_Comanda),
+    FOREIGN KEY (ID_Produs) REFERENCES Produse (ID_Produs)
+);
+
+CREATE TABLE Consiliu (
+    ID_Sedinta INT PRIMARY KEY,
+    RegulaAdoptata VARCHAR(255),
+    SubiecteAbordate VARCHAR(255),
+    ID_Reprezentant INT,
+    ID_Echipa INT,
+    FOREIGN KEY (ID_Echipa) REFERENCES Marketing (ID_Echipa),
+    FOREIGN KEY (ID_Reprezentant) REFERENCES CercetareDezvoltare (ID_Reprezentant)
+);
+
+CREATE TABLE CercetareDezvoltare (
+  ID_Reprezentant INT PRIMARY KEY,
+  ID_Director INT,
+  NumarCercetariLunar INT,
+  RataReusita DECIMAL(5, 2)
+);
+
+CREATE TABLE Marketing (
+  ID_Echipa INT PRIMARY KEY,
+  Id_Director INT,
+  ID_Strategie INT,
+  RataReusita DECIMAL(5, 2),
+  CostMediuPromovare DECIMAL(10, 2)
+);
+
+CREATE TABLE ParteneriExterni (
+  ID_Partener INT PRIMARY KEY,
+  NumePartener VARCHAR(100),
+  Adresa VARCHAR(100),
+  Contact VARCHAR(50),
+  ID_Echipa INT,
+  FOREIGN KEY (ID_Echipa) REFERENCES Marketing (ID_Echipa)
+);
+
+CREATE TABLE Eveniment (
+  ID_Eveniment INT PRIMARY KEY,
+  NumeEveniment VARCHAR(100),
+  Descriere VARCHAR(255),
+  DataInceput DATE,
+  DataSfarsit DATE,
+  ProcentReducere DECIMAL(5, 2),
+  ID_Echipa INT,
+  FOREIGN KEY (ID_Echipa) REFERENCES Marketing (ID_Echipa)
+);
+
+CREATE TABLE Promovare (
+  ID_Promovare INT PRIMARY KEY,
+  DataPromovare DATE,
+  ID_Echipa INT,
+  FOREIGN KEY (ID_Echipa) REFERENCES Marketing (ID_Echipa)
+);
+
+CREATE TABLE Reclama (
+  ID_Reclama INT PRIMARY KEY,
+  ID_Produs INT,
+  DataReclama DATE,
+  ID_Promovare INT,
+  FOREIGN KEY (ID_Produs) REFERENCES Produse (ID_Produs),
+  FOREIGN KEY (ID_Promovare) REFERENCES Promovare (ID_Promovare)
+);
+
+CREATE TABLE Voluntari (
+  ID_Voluntar INT PRIMARY KEY,
+  MedieEsecAlergii DECIMAL(5, 2),
+  MedieFeedback DECIMAL(5, 2),
+  ID_Reprezentant INT,
+  FOREIGN KEY (ID_Reprezentant) REFERENCES CercetareDezvoltare (ID_Reprezentant)
+);
+CREATE TABLE Laboratoare (
+  ID_Laborator INT PRIMARY KEY,
+  NumeLaborator VARCHAR(100),
+  Adresa VARCHAR(100),
+  Contact VARCHAR(50),
+  ID_Reprezentant INT,
+  FOREIGN KEY (ID_Reprezentant) REFERENCES CercetareDezvoltare (ID_Reprezentant) 
+);
+
+--Cerinta 5 
+
+CREATE SEQUENCE Comenzi_nr
+    START WITH 1
+    INCREMENT BY 1
+    MAXVALUE 7
+    NOCYCLE;
+
+INSERT INTO Comenzi (ID_Comanda, ID_Client, DataComanda, StareComanda)
+VALUES (Comenzi_nr.NEXTVAL, 1, TO_DATE('2021-05-25','YYYY-MM-DD'), 'In curs de procesare');
+
+INSERT INTO Comenzi (ID_Comanda, ID_Client, DataComanda, StareComanda)
+VALUES (Comenzi_nr.NEXTVAL, 2, TO_DATE('2021-05-25','YYYY-MM-DD'), 'In curs de procesare');
+
+INSERT INTO Comenzi (ID_Comanda, ID_Client, DataComanda, StareComanda)
+VALUES (Comenzi_nr.NEXTVAL, 3, TO_DATE('2021-05-26','YYYY-MM-DD'), 'In curs de procesare');
+
+INSERT INTO Comenzi (ID_Comanda, ID_Client, DataComanda, StareComanda)
+VALUES (Comenzi_nr.NEXTVAL, 4, TO_DATE('2021-05-27','YYYY-MM-DD'), 'In curs de procesare');
+
+INSERT INTO Comenzi (ID_Comanda, ID_Client, DataComanda, StareComanda)
+VALUES (Comenzi_nr.NEXTVAL, 2, TO_DATE('2021-02-28','YYYY-MM-DD'), 'In curs de procesare');
+
+INSERT INTO Comenzi (ID_Comanda, ID_Client, DataComanda, StareComanda)
+VALUES (Comenzi_nr.NEXTVAL, 3, TO_DATE('2022-05-14','YYYY-MM-DD'), 'In curs de procesare');
+
+INSERT INTO Comenzi (ID_Comanda, ID_Client, DataComanda, StareComanda)
+VALUES (Comenzi_nr.NEXTVAL, 5, TO_DATE('2023-02-07','YYYY-MM-DD'), 'In curs de procesare');
+
+CREATE SEQUENCE Client_nr
+    START WITH 1
+    INCREMENT BY 1
+    MAXVALUE 5
+    NOCYCLE;
+
+INSERT INTO Clienti ( ID_Client, Nume, Prenume, Adresa, NrTelefon, Email )
+VALUES (Client_nr.NEXTVAL, 'Popescu', 'Ana', 'Str. Florilor, Nr. 10', '0721122334', 'ana.popescu@gmail.com');
+
+
+INSERT INTO Clienti ( ID_Client, Nume, Prenume, Adresa, NrTelefon, Email )
+VALUES (Client_nr.NEXTVAL, 'Ionescu', 'Maria', 'Str. Florilor, Nr. 11', '0721122335', 'ionescu.maria@gmail.com');
+
+INSERT INTO Clienti ( ID_Client, Nume, Prenume, Adresa, NrTelefon, Email )
+VALUES (Client_nr.NEXTVAL, 'Popa', 'Andrei', 'Str. Florilor, Nr. 12', '0721122336', 'popa.andrei@gmail.com');
+
+INSERT INTO Clienti ( ID_Client, Nume, Prenume, Adresa, NrTelefon, Email )
+VALUES (Client_nr.NEXTVAL, 'Pop', 'Andreea', 'Str. Florilor, Nr. 13', '0721122337', 'pop.andreea@gmail.com');
+
+INSERT INTO Clienti ( ID_Client, Nume, Prenume, Adresa, NrTelefon, Email )
+
+VALUES (Client_nr.NEXTVAL, 'Popescu', 'Andrei', 'Str. Florilor, Nr. 14', '0721122338', 'popescu.andrei@yahoo.com'); 
+
+INSERT INTO Marketing (ID_Echipa, Id_Director, ID_STRATEGIE, RataReusita, CostMediuPromovare)
+VALUES (1, 1, 12, 0.9, 500.00);
+
+INSERT INTO Marketing (ID_Echipa, Id_Director, ID_STRATEGIE, RataReusita, CostMediuPromovare)
+VALUES (2, 2, 10, 0.8, 600.00);
+
+INSERT INTO Marketing (ID_Echipa, Id_Director, ID_STRATEGIE, RataReusita, CostMediuPromovare)
+VALUES (3, 2, 11, 0.7, 700.00);
+
+INSERT INTO Marketing (ID_Echipa, Id_Director, ID_STRATEGIE, RataReusita, CostMediuPromovare)
+VALUES (4, 1, 12, 0.6, 800.00);
+
+INSERT INTO Marketing (ID_Echipa, Id_Director, ID_STRATEGIE, RataReusita, CostMediuPromovare)
+VALUES (5, 3,10,  0.5, 900.00);
+
+INSERT INTO Produse (ID_Produs, NumeProdus, Categorie, PretFabricare, PretVanzare, Review)
+VALUES (1, 'Rimel', 'Machiaj', 10.00, 20.00, 'Bun');
+
+INSERT INTO Produse (ID_Produs, NumeProdus, Categorie, PretFabricare, PretVanzare, Review)
+VALUES (2, 'Ruj', 'Machiaj', 15.00, 30.00, 'Foarte bun');
+
+INSERT INTO Produse (ID_Produs, NumeProdus, Categorie, PretFabricare, PretVanzare, Review)
+VALUES (3, 'Crema de fata', 'Ingrijirea pielii', 10.00, 20.00, 'Bun');
+
+INSERT INTO Produse (ID_Produs, NumeProdus, Categorie, PretFabricare, PretVanzare, Review)
+VALUES (4, 'Fond de ten', 'Machiaj', 12.00, 25.00, 'Foarte bun');
+
+INSERT INTO Produse (ID_Produs, NumeProdus, Categorie, PretFabricare, PretVanzare, Review)
+VALUES (5, 'Gel de curatare ', 'Ingrijirea tenului', 15.00, 30.00, 'Excelent');
+
+INSERT INTO Produse (ID_Produs, NumeProdus, Categorie, PretFabricare, PretVanzare, Review)
+VALUES (6, 'SPF', 'Ingrijirea pielii', 30.00, 70.00, 'Excelent');
+
+INSERT INTO Produse (ID_Produs, NumeProdus, Categorie, PretFabricare, PretVanzare, Review)
+VALUES (7, 'Pasta de dinti', 'Ingrijirea dentara', 5.00, 12.00, 'Excelent');
+
+INSERT INTO Produse (ID_Produs, NumeProdus, Categorie, PretFabricare, PretVanzare, Review)
+VALUES (8, 'Ser de noapte', 'Ingrijirea pielii', 25.00, 60.00, 'Foarte bun');
+
+INSERT INTO Produse (ID_Produs, NumeProdus, Categorie, PretFabricare, PretVanzare, Review)
+VALUES (9, 'Perie pentru par', 'Ingrijire personala', 8.00, 18.00, 'Bun');
+
+INSERT INTO Produse (ID_Produs, NumeProdus, Categorie, PretFabricare, PretVanzare, Review)
+VALUES (10, 'Lotiune de corp', 'Ingrijirea pielii', 20.00, 45.00, 'Excelent');
+
+INSERT INTO Stoc (ID_Stoc, Cantitate, ID_Comanda, ID_Produs)
+VALUES (101, 100, 7, 5);
+
+INSERT INTO Stoc (ID_Stoc, Cantitate, ID_Comanda, ID_Produs)
+VALUES (102, 200, 2, 4);
+
+INSERT INTO Stoc (ID_Stoc, Cantitate, ID_Comanda, ID_Produs)
+VALUES (103, 300, 1, 9);
+
+INSERT INTO Stoc (ID_Stoc, Cantitate, ID_Comanda, ID_Produs)
+VALUES (107, 300, 5, 2);
+
+INSERT INTO Stoc (ID_Stoc, Cantitate, ID_Comanda, ID_Produs)
+VALUES (104, 450, 3, 3);
+
+INSERT INTO Stoc (ID_Stoc, Cantitate, ID_Comanda, ID_Produs)
+VALUES (105, 520, 1, 1);
+
+INSERT INTO Stoc (ID_Stoc, Cantitate, ID_Comanda, ID_Produs)
+VALUES (106, 128, 6, 6);
+
+INSERT INTO Stoc (ID_Stoc, Cantitate, ID_Comanda, ID_Produs)
+VALUES (108, 89, 5, 8);
+
+INSERT INTO Stoc (ID_Stoc, Cantitate, ID_Comanda, ID_Produs)
+VALUES (109, 382, 7, 7)
+
+INSERT INTO Stoc (ID_Stoc, Cantitate, ID_Comanda, ID_Produs)
+VALUES (110, 203, 1, 10);
+
+INSERT INTO Stoc (ID_Stoc, Cantitate, ID_Comanda, ID_Produs)
+VALUES (111, 100, 4, 2);
+
+INSERT INTO Stoc (ID_Stoc, Cantitate, ID_Comanda, ID_Produs)
+VALUES (112, 200, 3, 1);
+
+INSERT INTO Stoc (ID_Stoc, Cantitate, ID_Comanda, ID_Produs)
+VALUES (113, 300, 2, 3);
+
+INSERT INTO Stoc (ID_Stoc, Cantitate, ID_Comanda, ID_Produs)
+VALUES (114, 450, 4, 4);
+
+INSERT INTO Stoc (ID_Stoc, Cantitate, ID_Comanda, ID_Produs)
+VALUES (115, 520, 5, 5);
+
+INSERT INTO CONSILIU(ID_Sedinta,RegulaAdoptata, SubiecteAbordate, ID_ECHIPA, ID_Reprezentant)
+VALUES (1, 'Regula 1', 'Subiect 1', 2, 4);
+
+INSERT INTO CONSILIU(ID_Sedinta,RegulaAdoptata, SubiecteAbordate, ID_ECHIPA, ID_Reprezentant)
+VALUES (2, 'Regula 2', 'Subiect 2', 5, 4);
+
+INSERT INTO CONSILIU(ID_Sedinta,RegulaAdoptata, SubiecteAbordate, ID_ECHIPA, ID_Reprezentant)
+VALUES (3, 'Regula 3', 'Subiect 3', 3, 3);
+
+INSERT INTO CONSILIU(ID_Sedinta,RegulaAdoptata, SubiecteAbordate, ID_ECHIPA, ID_Reprezentant)
+VALUES (4, 'Regula 4', 'Subiect 4', 1, 4);
+
+INSERT INTO CONSILIU(ID_Sedinta,RegulaAdoptata, SubiecteAbordate, ID_ECHIPA, ID_Reprezentant)
+VALUES (5, 'Regula 5', 'Subiect 5', 5, 2); 
+
+INSERT INTO CercetareDezvoltare (ID_Reprezentant, ID_Director, NumarCercetariLunar, RataReusita)
+VALUES (1, 1, 5, 0.8);
+
+INSERT INTO CercetareDezvoltare (ID_Reprezentant, ID_Director, NumarCercetariLunar, RataReusita)
+VALUES (2, 2, 8, 0.7);
+
+INSERT INTO CercetareDezvoltare (ID_Reprezentant, ID_Director, NumarCercetariLunar, RataReusita)
+VALUES (3, 1, 12, 0.9);
+
+INSERT INTO CercetareDezvoltare (ID_Reprezentant, ID_Director, NumarCercetariLunar, RataReusita)
+VALUES (4, 4, 9, 0.75);
+
+INSERT INTO CercetareDezvoltare (ID_Reprezentant, ID_Director, NumarCercetariLunar, RataReusita)
+VALUES (5, 4, 11, 0.85);
+
+INSERT INTO ParteneriExterni (ID_Partener, NumePartener, Adresa, Contact, ID_Echipa)
+VALUES (1, 'Compania ABC', 'Str. Principala 123, Orasul X', 'Mihai Popa', 1);
+
+INSERT INTO ParteneriExterni (ID_Partener, NumePartener, Adresa, Contact, ID_Echipa)
+VALUES (2, 'Corporatia XYZ', 'Str. Secundara 456, Orasul Y', 'Andreea Maria', 2);
+
+INSERT INTO ParteneriExterni (ID_Partener, NumePartener, Adresa, Contact, ID_Echipa)
+VALUES (3, 'Industria DEF', 'Str. Principala 789, Orasul Z', 'Cristina Marculescu', 1);
+
+INSERT INTO ParteneriExterni (ID_Partener, NumePartener, Adresa, Contact, ID_Echipa)
+VALUES (4, 'Industria MNO', 'Str. Principala 129, Orasul Z', 'Ana Ilie', 2);
+
+INSERT INTO ParteneriExterni (ID_Partener, NumePartener, Adresa, Contact, ID_Echipa)
+VALUES (5, 'Industria OMS', 'Str. Principala 229, Orasul Y', 'Crina Maria', 1); 
+
+INSERT INTO Eveniment(ID_Eveniment, NumeEveniment, Descriere, DataInceput, DataSfarsit, ProcentReducere, ID_Echipa)
+VALUES (1, 'Black Friday', 'Reduceri de 50% la toate produsele', TO_DATE('2020-11-27','YYYY-MM-DD'), TO_DATE('2020-11-29','YYYY-MM-DD'), 50, 1);
+
+INSERT INTO Eveniment(ID_Eveniment, NumeEveniment, Descriere, DataInceput, DataSfarsit, ProcentReducere, ID_Echipa)
+VALUES (2, 'Craciun', 'Reduceri de 30% la toate produsele', TO_DATE('2020-12-24','YYYY-MM-DD'), TO_DATE('2020-12-26','YYYY-MM-DD'), 30, 2);
+
+INSERT INTO Eveniment(ID_Eveniment, NumeEveniment, Descriere, DataInceput, DataSfarsit, ProcentReducere, ID_Echipa)
+VALUES (3, 'Revelion', 'Reduceri de 20% la toate produsele', TO_DATE('2020-12-31','YYYY-MM-DD'), TO_DATE('2021-01-02','YYYY-MM-DD'), 20, 3);
+
+INSERT INTO Eveniment(ID_Eveniment, NumeEveniment, Descriere, DataInceput, DataSfarsit, ProcentReducere, ID_Echipa)
+VALUES (4, 'Valentines Day', 'Reduceri de 40% la toate produsele', TO_DATE('2021-02-14','YYYY-MM-DD'), TO_DATE('2021-02-16','YYYY-MM-DD'), 40, 4);
+
+INSERT INTO Eveniment(ID_Eveniment, NumeEveniment, Descriere, DataInceput, DataSfarsit, ProcentReducere, ID_Echipa)
+VALUES (5, 'Black Friday', 'Reduceri de 50% la toate produsele', TO_DATE('2021-11-26','YYYY-MM-DD'), TO_DATE('2021-11-28','YYYY-MM-DD'), 50, 5);
+
+INSERT INTO Promovare(ID_PROMOVARE, DATAPROMOVARE, ID_ECHIPA)
+VALUES (1, TO_DATE('2020-11-27','YYYY-MM-DD'), 1);
+INSERT INTO Promovare(ID_PROMOVARE, DATAPROMOVARE, ID_ECHIPA)
+VALUES (2, TO_DATE('2020-11-27','YYYY-MM-DD'), 2);
+INSERT INTO Promovare(ID_PROMOVARE, DATAPROMOVARE, ID_ECHIPA)
+VALUES (3, TO_DATE('2020-11-27','YYYY-MM-DD'), 3);
+INSERT INTO Promovare(ID_PROMOVARE, DATAPROMOVARE, ID_ECHIPA)
+VALUES (4, TO_DATE('2020-11-27','YYYY-MM-DD'), 4);
+INSERT INTO Promovare(ID_PROMOVARE, DATAPROMOVARE, ID_ECHIPA)
+VALUES (5, TO_DATE('2020-11-27','YYYY-MM-DD'), 5);
+INSERT INTO Promovare(ID_PROMOVARE, DATAPROMOVARE, ID_ECHIPA)
+VALUES (6, TO_DATE('2020-11-27','YYYY-MM-DD'), 1);
+INSERT INTO Promovare(ID_PROMOVARE, DATAPROMOVARE, ID_ECHIPA)
+VALUES (7, TO_DATE('2020-11-27','YYYY-MM-DD'), 2);
+INSERT INTO Promovare(ID_PROMOVARE, DATAPROMOVARE, ID_ECHIPA)
+VALUES (8, TO_DATE('2020-11-27','YYYY-MM-DD'), 2);
+INSERT INTO Promovare(ID_PROMOVARE, DATAPROMOVARE, ID_ECHIPA)
+VALUES (9, TO_DATE('2020-11-27','YYYY-MM-DD'), 2);
+INSERT INTO Promovare(ID_PROMOVARE, DATAPROMOVARE, ID_ECHIPA)
+VALUES (10, TO_DATE('2020-11-27','YYYY-MM-DD'), 2);
+INSERT INTO Promovare(ID_PROMOVARE, DATAPROMOVARE, ID_ECHIPA)
+VALUES (11, TO_DATE('2020-11-27','YYYY-MM-DD'), 2);
+INSERT INTO Promovare(ID_PROMOVARE, DATAPROMOVARE, ID_ECHIPA)
+VALUES (12, TO_DATE('2020-11-27','YYYY-MM-DD'), 2);
+
+INSERT INTO Reclama(ID_Reclama, DataReclama, ID_PRODUS, ID_PROMOVARE)
+VALUES (1, TO_DATE('2020-11-27','YYYY-MM-DD'), 1, 1);
+INSERT INTO Reclama(ID_Reclama, DataReclama, ID_PRODUS, ID_PROMOVARE)
+VALUES (2, TO_DATE('2020-11-27','YYYY-MM-DD'), 2, 2);
+INSERT INTO Reclama(ID_Reclama, DataReclama, ID_PRODUS, ID_PROMOVARE)
+VALUES (3, TO_DATE('2020-11-27','YYYY-MM-DD'), 3, 3);
+INSERT INTO Reclama(ID_Reclama, DataReclama, ID_PRODUS, ID_PROMOVARE)
+VALUES (4, TO_DATE('2020-11-27','YYYY-MM-DD'), 4, 4);
+INSERT INTO Reclama(ID_Reclama, DataReclama, ID_PRODUS, ID_PROMOVARE)
+VALUES (5, TO_DATE('2020-11-27','YYYY-MM-DD'), 7, 5);
+INSERT INTO Reclama(ID_Reclama, DataReclama, ID_PRODUS, ID_PROMOVARE)
+VALUES (6, TO_DATE('2020-11-27','YYYY-MM-DD'), 2, 6);
+INSERT INTO Reclama(ID_Reclama, DataReclama, ID_PRODUS, ID_PROMOVARE)
+VALUES (7, TO_DATE('2020-11-27','YYYY-MM-DD'), 7, 7);
+INSERT INTO Reclama(ID_Reclama, DataReclama, ID_PRODUS, ID_PROMOVARE)
+VALUES (8, TO_DATE('2020-11-27','YYYY-MM-DD'), 4, 8);
+INSERT INTO Reclama(ID_Reclama, DataReclama, ID_PRODUS, ID_PROMOVARE)
+VALUES (9, TO_DATE('2020-11-27','YYYY-MM-DD'), 3, 9);
+INSERT INTO Reclama(ID_Reclama, DataReclama, ID_PRODUS, ID_PROMOVARE)
+VALUES (10, TO_DATE('2020-11-27','YYYY-MM-DD'), 2, 10);
+INSERT INTO Reclama(ID_Reclama, DataReclama, ID_PRODUS, ID_PROMOVARE)
+VALUES (11, TO_DATE('2020-11-27','YYYY-MM-DD'), 5, 11);
+INSERT INTO Reclama(ID_Reclama, DataReclama, ID_PRODUS, ID_PROMOVARE)
+VALUES (12, TO_DATE('2020-11-27','YYYY-MM-DD'), 4, 12);
+
+INSERT INTO Voluntari (ID_Voluntar, MedieEsecAlergii, MedieFeedback, ID_Reprezentant)
+VALUES (1, 0.2, 4.5, 1);
+
+INSERT INTO Voluntari (ID_Voluntar, MedieEsecAlergii, MedieFeedback, ID_Reprezentant)
+VALUES (2,  0.5, 4.2, 2);
+
+INSERT INTO Voluntari (ID_Voluntar, MedieEsecAlergii, MedieFeedback, ID_Reprezentant)
+VALUES (3,  0.1, 4.8, 1);
+
+INSERT INTO Voluntari (ID_Voluntar, MedieEsecAlergii, MedieFeedback, ID_Reprezentant)
+VALUES (4, 0.3, 4.6, 4);
+
+INSERT INTO Voluntari (ID_Voluntar, MedieEsecAlergii, MedieFeedback, ID_Reprezentant)
+VALUES (5, 0.4, 4.3, 3);
+
+INSERT INTO Laboratoare (ID_Laborator, NumeLaborator, Adresa, Contact, ID_Reprezentant)
+VALUES (1, 'Laboratorul 1', 'Str. Principala 102, Orasul X', 'Claudia Marin', 1);
+
+INSERT INTO Laboratoare (ID_Laborator, NumeLaborator, Adresa, Contact, ID_Reprezentant)
+VALUES (2, 'Laboratorul 2', 'Str. Secundara 212, Orasul Y', 'Marina Dobos', 2);
+
+INSERT INTO Laboratoare (ID_Laborator, NumeLaborator, Adresa, Contact, ID_Reprezentant)
+VALUES (3, 'Laboratorul 3', 'Str. Principala 122, Orasul Z', 'Catalin Ion', 3);
+
+INSERT INTO Laboratoare (ID_Laborator, NumeLaborator, Adresa, Contact, ID_Reprezentant)
+VALUES (4, 'Laboratorul 4', 'Str. Principala 532, Orasul Y', 'Matei Florin', 4);
+
+INSERT INTO Laboratoare (ID_Laborator, NumeLaborator, Adresa, Contact, ID_Reprezentant)
+VALUES (5, 'Laboratorul 5', 'Str. Secundara 200, Orasul X', 'Cristina Orastie', 5);
+
+--Cerinta 6 
+
+--Un manager de produs dintr o companie are nevoie de un raport detaliat pentru un anumit produs din inventarul companiei. Raportul trebuie sa include informatii esentiale despre un produs cum ar fi numele, categoria si pretul de vanzare. De asemenea, managerul doreste sa afle detalii despre stocul disponibil pentru acest produs, incluzand cantitatea din fiecare stoc si comenzile asociate cu aceste stocuri. Mai mult, pentru a evalua impactul campaniilor de marketing, raportul trebuie sa prezinte o lista a tuturor reclamelor asociate cu produsul, cu datele lor de difuzare. In final, raportul trebuie sa ofere o imagine de ansamblu asupra categoriilor de produse disponibile in companie, pentru a asista la planificarea viitoare a stocurilor si a promotiilor.
+
+CREATE OR REPLACE PROCEDURE RaportDetaliiProdus (
+    p_ID_Produs IN INT
+) AS
+    TYPE ProdusInfo IS RECORD (
+        NumeProdus VARCHAR2(100),
+        Categorie VARCHAR2(50),
+        PretVanzare DECIMAL(10, 2)
+    );
+
+    TYPE StocInfo IS RECORD (
+        ID_Stoc INT,
+        Cantitate INT,
+        ID_Comanda INT
+    );
+    TYPE StocList IS TABLE OF StocInfo INDEX BY PLS_INTEGER;
+
+    TYPE ReclamaType IS RECORD (
+        ID_Reclama INT,
+        DataReclama DATE
+    );
+    TYPE ReclamaList IS TABLE OF ReclamaType;
+
+    TYPE CategorieList IS VARRAY(50) OF VARCHAR2(50); 
+
+    produs_info ProdusInfo;
+    stoc_list StocList;
+    reclama_list ReclamaList := ReclamaList();
+    categorie_list CategorieList := CategorieList();
+    idx INT := 1;
+
+BEGIN
+    SELECT NumeProdus, Categorie, PretVanzare
+    INTO produs_info.NumeProdus, produs_info.Categorie, produs_info.PretVanzare
+    FROM Produse
+    WHERE ID_Produs = p_ID_Produs;
+
+    SELECT ID_Stoc, Cantitate, ID_Comanda
+    BULK COLLECT INTO stoc_list
+    FROM Stoc
+    WHERE ID_Produs = p_ID_Produs;
+
+    SELECT ID_Reclama, DataReclama
+    BULK COLLECT INTO reclama_list
+    FROM Reclama
+    WHERE ID_Produs = p_ID_Produs;
+
+    SELECT DISTINCT Categorie
+    BULK COLLECT INTO categorie_list
+    FROM Produse
+    WHERE ROWNUM <= 50;
+
+    DBMS_OUTPUT.PUT_LINE('Raport pentru produsul: ' || produs_info.NumeProdus);
+    DBMS_OUTPUT.PUT_LINE('Categorie: ' || produs_info.Categorie || ', Pret de Vanzare: ' || produs_info.PretVanzare);
+
+    DBMS_OUTPUT.PUT_LINE('Stocuri:');
+    FOR i IN stoc_list.FIRST..stoc_list.LAST LOOP
+        IF stoc_list.EXISTS(i) THEN
+            DBMS_OUTPUT.PUT_LINE('ID Stoc: ' || stoc_list(i).ID_Stoc || ', Cantitate: ' || stoc_list(i).Cantitate || ', ID Comanda: ' || stoc_list(i).ID_Comanda);
+        END IF;
+    END LOOP;
+
+    DBMS_OUTPUT.PUT_LINE('Reclame asociate:');
+    FOR i IN 1..reclama_list.COUNT LOOP
+        DBMS_OUTPUT.PUT_LINE('ID Reclama: ' || reclama_list(i).ID_Reclama || ', Data: ' || TO_CHAR(reclama_list(i).DataReclama, 'DD-MM-YYYY'));
+    END LOOP;
+
+    DBMS_OUTPUT.PUT_LINE('Categorii de produse disponibile:');
+    FOR i IN 1..categorie_list.COUNT LOOP
+        DBMS_OUTPUT.PUT_LINE(categorie_list(i));
+    END LOOP;
+END RaportDetaliiProdus;
+/
+
+DECLARE
+    v_ID_Produs INT := 1; 
+BEGIN
+    RaportDetaliiProdus(v_ID_Produs);
+END;
+/
+
+--Cerinta 7
+--Un manager al departamentului de logistica al unei companii trebuie sa genereze rapoarte detaliate despre comenzile din baza de date. Acesta doreste sa afle informatii precum ID-ul comenzii, data si starea acesteia. De asemenea, managerul vrea sa includa in raport detalii despre produsele din stoc asociate fiecarei comenzi, cum ar fi ID-ul stocului, numele produsului, cantitatea si pretul de vanzare. Pentru a realiza aceasta, foloseste un subprogram stocat care utilizeaza doua tipuri de cursoare: unul implicit pentru a obtine informatii generale despre comenzile din baza de date si unul explicit parametrizat pentru a obtine detalii specifice despre produsele din stoc asociate fiecarei comenzi
+CREATE OR REPLACE PROCEDURE RaportComenziBazaDate IS
+    CURSOR cursorComenzi IS
+        SELECT c.ID_Comanda, c.DataComanda, c.StareComanda, cl.Nume
+        FROM Comenzi c
+        JOIN Clienti cl ON c.ID_Client = cl.ID_Client;
+    
+BEGIN
+    FOR comanda_rec IN cursorComenzi LOOP
+        DBMS_OUTPUT.PUT_LINE('ID Comanda: ' || comanda_rec.ID_Comanda || ', Data: ' || comanda_rec.DataComanda || ', Stare: ' || comanda_rec.StareComanda || ', Nume Client: ' || comanda_rec.Nume);
+
+        DECLARE
+            CURSOR cursorDetaliiComanda(p_ID_Comanda INT) IS
+                SELECT s.ID_Stoc, s.Cantitate, p.NumeProdus, p.PretVanzare
+                FROM Stoc s
+                JOIN Produse p ON s.ID_Produs = p.ID_Produs
+                WHERE s.ID_Comanda = p_ID_Comanda;
+        BEGIN
+            FOR detalii_rec IN cursorDetaliiComanda(comanda_rec.ID_Comanda) LOOP
+                DBMS_OUTPUT.PUT_LINE('  Detalii Stoc: ID_Stoc ' || detalii_rec.ID_Stoc || ', Produs: ' || detalii_rec.NumeProdus || ', Cantitate: ' || detalii_rec.Cantitate || ', Pret: ' || detalii_rec.PretVanzare);
+            END LOOP;
+        END;
+    END LOOP;
+END RaportComenziBazaDate;
+/
+
+BEGIN
+    RaportComenziBazaDate;
+END;
+/
+
+--Cerinta 8 
+--Un administrator al bazei de date trebuie sa creeze un raport detaliat pentru comenzile, clientii si produsele asociate. Raportul trebuie sa includa informatii despre ID-ul comenzii, data si starea comenzii, numele si prenumele clientului, precum si numele si categoria produsului. Pentru a realiza acest lucru, va folosi o functie stocata care va returna un sir de caractere ce contine toate informatiile necesare, folosind o singura comanda SQL pentru a interoga tabelele Comenzi, Clienti si Produse. Functia trebuie sa poata gestiona doua exceptii personalizate: una pentru situatia in care nu exista informatii despre comenzile efectuate si alta pentru situatia in care nu exista informatii despre produse. Pentru a demonstra functionarea corecta a functiei, aceasta va fi apelata in trei scenarii diferite: apelul normal pentru a genera raportul, simularea unei situatii in care nu exista informatii despre comenzile efectuate si simularea unei situatii in care nu exista informatii despre produse
+
+CREATE OR REPLACE FUNCTION RaportComenziClientiProduse(p_simulare_exception IN VARCHAR2 DEFAULT NULL) RETURN VARCHAR2 IS
+  TYPE RaportType IS TABLE OF VARCHAR2(4000);
+  v_raport RaportType := RaportType();
+
+  COMENZI_INEXISTENTE EXCEPTION;
+  PRODUSE_INEXISTENTE EXCEPTION; 
+
+BEGIN
+  IF p_simulare_exception = 'PRODUSE_INEXISTENTE' THEN
+    RAISE PRODUSE_INEXISTENTE;
+  END IF;
+
+  IF p_simulare_exception = 'COMENZI_INEXISTENTE' THEN
+    RAISE COMENZI_INEXISTENTE;
+  END IF;
+
+  FOR rec IN (
+    SELECT
+      c.ID_Comanda, c.DataComanda, c.StareComanda,
+      p.NumeProdus, p.Categorie, s.Cantitate
+    FROM
+      Comenzi c
+      JOIN Stoc s ON c.ID_Comanda = s.ID_Comanda
+      JOIN Produse p ON s.ID_Produs = p.ID_Produs
+  ) LOOP
+    v_raport.EXTEND;
+    v_raport(v_raport.LAST) := 'Comanda: ' || rec.ID_Comanda || ', Data: ' || rec.DataComanda || 
+      ', Stare: ' || rec.StareComanda || ', Produs: ' || rec.NumeProdus || 
+      ', Categorie: ' || rec.Categorie || ', Cantitate: ' || rec.Cantitate;
+  END LOOP;
+
+  IF v_raport.COUNT = 0 THEN
+    RAISE COMENZI_INEXISTENTE;
+  ELSIF p_simulare_exception = 'PRODUSE_INEXISTENTE' THEN
+    RAISE PRODUSE_INEXISTENTE;
+  END IF;
+
+  FOR i IN 1..v_raport.COUNT LOOP
+    DBMS_OUTPUT.PUT_LINE(v_raport(i));
+  END LOOP;
+
+  RETURN 'Raport generat cu succes.';
+EXCEPTION
+  WHEN COMENZI_INEXISTENTE THEN
+    RETURN 'Nu exista informatii despre comenzile efectuate.';
+  WHEN PRODUSE_INEXISTENTE THEN
+    RETURN 'Nu exista informatii despre produse.';
+END RaportComenziClientiProduse;
+/
+
+DECLARE
+  rezultat VARCHAR2(4000);
+BEGIN
+  rezultat := RaportComenziClientiProduse;
+  DBMS_OUTPUT.PUT_LINE(rezultat);
+
+  rezultat := RaportComenziClientiProduse('COMENZI_INEXISTENTE');
+  DBMS_OUTPUT.PUT_LINE(rezultat);
+
+  rezultat := RaportComenziClientiProduse('PRODUSE_INEXISTENTE');
+  DBMS_OUTPUT.PUT_LINE(rezultat);
+
+END;
+/
+
+
+--Cerinta 9 
+--Creeaza o procedura stocata in baza de date care sa genereze un raport de analiza utilizand date din cinci tabele definite: Comenzi, Clienti, Stoc, Produse si CercetareDezvoltare. Raportul trebuie sa includa informatii precum valoarea totala a vanzarilor, numarul total de clienti, media preturilor de vanzare, totalul cantitatii din stoc si media ratei de reusita in cercetare. Procedura trebuie sa gestioneze corect toate situatiile, inclusiv cazurile in care nu exista date disponibile sau sunt prea multe randuri de date. Pentru a evidenția functionarea corecta a procedurii, aceasta trebuie apelata in trei scenarii diferite: un apel normal pentru a genera raportul, un apel pentru a simula lipsa de date si unul pentru a simula prezenta unui numar prea mare de randuri de date.
+
+CREATE OR REPLACE PROCEDURE RaportAnaliza(p_simulare_scenariu IN VARCHAR2 DEFAULT NULL) AS
+  v_total_valoare_vanzari DECIMAL(10, 2);
+  v_numar_clienti INT;
+  v_medie_pret_vanzare DECIMAL(10, 2);
+  v_total_cantitate_stoc INT;
+  v_medie_reusita_cercetare DECIMAL(5, 2);
+
+  PROCEDURE SimulareNoData IS
+  BEGIN
+    RAISE NO_DATA_FOUND;
+  END;
+
+  PROCEDURE SimulareTooManyRows IS
+  BEGIN
+    RAISE TOO_MANY_ROWS;
+  END;
+
+BEGIN
+  IF p_simulare_scenariu = 'NO_DATA' THEN
+    SimulareNoData;
+  ELSIF p_simulare_scenariu = 'TOO_MANY_ROWS' THEN
+    SimulareTooManyRows;
+  END IF;
+
+  SELECT
+    COALESCE(SUM(p.PretVanzare * s.Cantitate), 0),
+    COUNT(DISTINCT cl.ID_Client),
+    COALESCE(AVG(p.PretVanzare), 0),
+    SUM(s.Cantitate),
+    COALESCE(AVG(cd.RataReusita), 0)
+  INTO
+    v_total_valoare_vanzari,
+    v_numar_clienti,
+    v_medie_pret_vanzare,
+    v_total_cantitate_stoc,
+    v_medie_reusita_cercetare
+  FROM
+    Comenzi c
+    JOIN Clienti cl ON c.ID_Client = cl.ID_Client
+    JOIN Stoc s ON c.ID_Comanda = s.ID_Comanda
+    JOIN Produse p ON p.ID_Produs = s.ID_Produs
+    LEFT JOIN CercetareDezvoltare cd ON cl.ID_Client = cd.ID_Reprezentant;
+
+  DBMS_OUTPUT.PUT_LINE('Total valoare vanzari: ' || v_total_valoare_vanzari);
+  DBMS_OUTPUT.PUT_LINE('Numar total de clienti: ' || v_numar_clienti);
+  DBMS_OUTPUT.PUT_LINE('Media preturilor de vanzare: ' || v_medie_pret_vanzare);
+  DBMS_OUTPUT.PUT_LINE('Total cantitate in stoc: ' || v_total_cantitate_stoc);
+  DBMS_OUTPUT.PUT_LINE('Media ratei de reusita in cercetare: ' || v_medie_reusita_cercetare);
+
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+      DBMS_OUTPUT.PUT_LINE('Nu s-au gasit date pentru raport.');
+    WHEN TOO_MANY_ROWS THEN
+      DBMS_OUTPUT.PUT_LINE('Prea multe randuri gasite pentru raport.');
+    WHEN OTHERS THEN
+      DBMS_OUTPUT.PUT_LINE('O eroare neasteptata a aparut.');
+END RaportAnaliza;
+/
+
+DECLARE
+  rezultat VARCHAR2(2000);
+BEGIN
+  RaportAnaliza;
+  DBMS_OUTPUT.PUT_LINE('Procedura a fost apelata cu succes.');
+  
+  RaportAnaliza('NO_DATA');
+  
+  RaportAnaliza('TOO_MANY_ROWS');
+END;
+/
+
+--Cerinta 10 
+--Definiti un trigger de tip LMD la nivel de comanda. Declansati trigger-ul.
+CREATE OR REPLACE TRIGGER trg_update_comenzi
+AFTER INSERT OR UPDATE ON Comenzi
+DECLARE
+  v_mesaj VARCHAR2(100);
+BEGIN
+  IF INSERTING THEN
+    v_mesaj := 'Au fost inserate randuri noi in tabela Comenzi.';
+  ELSIF UPDATING THEN
+    v_mesaj := 'Randuri din tabela Comenzi au fost actualizate.';
+  END IF;
+  DBMS_OUTPUT.PUT_LINE(v_mesaj);
+END trg_update_comenzi;
+/
+
+INSERT INTO Comenzi (ID_Comanda, ID_Client, DataComanda, StareComanda)
+VALUES (20, 5, SYSDATE, 'In curs de procesare');
+UPDATE Comenzi SET StareComanda = 'Procesata' WHERE ID_Comanda = 1;
+
+--Cerinta 11
+--Definiti un trigger de tip LMD la nivel de linie. Declansati trigger-ul.
+
+CREATE OR REPLACE TRIGGER trg_update_comenzi1
+BEFORE UPDATE ON Comenzi
+FOR EACH ROW
+BEGIN
+  :NEW.datacomanda := SYSDATE;
+DBMS_OUTPUT.PUT_LINE('Tabelul Comenzi a fost actualizat. DataComanda: ' || :NEW.DataComanda);
+END trg_update_comenzi;
+/
+
+UPDATE Comenzi SET StareComanda = 'Procesata' WHERE ID_Comanda = 1;
+
+
+--Cerinta 12
+ --Definiti un trigger de tip LDD. Declansati trigger-ul.
+
+CREATE TABLE audit_events (
+  utilizator VARCHAR2(30),
+  nume_bd VARCHAR2(50),
+  eveniment VARCHAR2(20),
+  nume_obiect VARCHAR2(30),
+  data DATE
+);
+
+CREATE OR REPLACE TRIGGER trg_audit_events
+ AFTER CREATE OR DROP OR ALTER ON SCHEMA
+BEGIN
+ INSERT INTO audit_events
+ VALUES (SYS.LOGIN_USER, SYS.DATABASE_NAME, SYS.SYSEVENT,
+ SYS.DICTIONARY_OBJ_NAME, SYSDATE);
+END;
+/
+
+CREATE TABLE Exemplu (
+  ID NUMBER PRIMARY KEY,
+  Nume VARCHAR2(50)
+);
+drop table exemplu;
+SELECT * FROM audit_events;
+
+--Cerinta 13
+
+--Cerinta 13
+
+--Cerinta 13
+
+CREATE OR REPLACE PACKAGE ProiectPachet AS
+
+  PROCEDURE RaportDetaliiProdus(p_ID_Produs IN INT);
+  PROCEDURE RaportComenziBazaDate;
+  FUNCTION RaportComenziClientiProduse(p_simulare_exception IN VARCHAR2 DEFAULT NULL) RETURN VARCHAR2;
+  PROCEDURE RaportAnaliza(p_simulare_scenariu IN VARCHAR2 DEFAULT NULL);
+
+END ProiectPachet;
+/
+
+CREATE OR REPLACE PACKAGE BODY ProiectPachet AS
+
+--Cerinta 6
+  PROCEDURE RaportDetaliiProdus(p_ID_Produs IN INT) AS
+    TYPE ProdusInfo IS RECORD (
+        NumeProdus VARCHAR2(100),
+        Categorie VARCHAR2(50),
+        PretVanzare DECIMAL(10, 2)
+    );
+
+    TYPE StocInfo IS RECORD (
+        ID_Stoc INT,
+        Cantitate INT,
+        ID_Comanda INT
+    );
+    TYPE StocList IS TABLE OF StocInfo INDEX BY PLS_INTEGER;
+
+    TYPE ReclamaType IS RECORD (
+        ID_Reclama INT,
+        DataReclama DATE
+    );
+    TYPE ReclamaList IS TABLE OF ReclamaType;
+
+    TYPE CategorieList IS VARRAY(50) OF VARCHAR2(50); 
+
+    produs_info ProdusInfo;
+    stoc_list StocList;
+    reclama_list ReclamaList := ReclamaList();
+    categorie_list CategorieList := CategorieList();
+    idx INT := 1;
+
+    BEGIN
+        SELECT NumeProdus, Categorie, PretVanzare
+        INTO produs_info.NumeProdus, produs_info.Categorie, produs_info.PretVanzare
+        FROM Produse
+        WHERE ID_Produs = p_ID_Produs;
+    
+        SELECT ID_Stoc, Cantitate, ID_Comanda
+        BULK COLLECT INTO stoc_list
+        FROM Stoc
+        WHERE ID_Produs = p_ID_Produs;
+    
+        SELECT ID_Reclama, DataReclama
+        BULK COLLECT INTO reclama_list
+        FROM Reclama
+        WHERE ID_Produs = p_ID_Produs;
+    
+        SELECT DISTINCT Categorie
+        BULK COLLECT INTO categorie_list
+        FROM Produse
+        WHERE ROWNUM <= 50;
+    
+        DBMS_OUTPUT.PUT_LINE('Raport pentru produsul: ' || produs_info.NumeProdus);
+        DBMS_OUTPUT.PUT_LINE('Categorie: ' || produs_info.Categorie || ', Pret de Vanzare: ' || produs_info.PretVanzare);
+    
+        DBMS_OUTPUT.PUT_LINE('Stocuri:');
+        FOR i IN stoc_list.FIRST..stoc_list.LAST LOOP
+            IF stoc_list.EXISTS(i) THEN
+                DBMS_OUTPUT.PUT_LINE('ID Stoc: ' || stoc_list(i).ID_Stoc || ', Cantitate: ' || stoc_list(i).Cantitate || ', ID Comanda: ' || stoc_list(i).ID_Comanda);
+            END IF;
+        END LOOP;
+    
+        DBMS_OUTPUT.PUT_LINE('Reclame asociate:');
+        FOR i IN 1..reclama_list.COUNT LOOP
+            DBMS_OUTPUT.PUT_LINE('ID Reclama: ' || reclama_list(i).ID_Reclama || ', Data: ' || TO_CHAR(reclama_list(i).DataReclama, 'DD-MM-YYYY'));
+        END LOOP;
+    
+        DBMS_OUTPUT.PUT_LINE('Categorii de produse disponibile:');
+        FOR i IN 1..categorie_list.COUNT LOOP
+            DBMS_OUTPUT.PUT_LINE(categorie_list(i));
+        END LOOP;
+    END RaportDetaliiProdus;
+
+  -- Cerinta 7
+  PROCEDURE RaportComenziBazaDate AS
+    CURSOR cursorComenzi IS
+            SELECT c.ID_Comanda, c.DataComanda, c.StareComanda, cl.Nume
+            FROM Comenzi c
+            JOIN Clienti cl ON c.ID_Client = cl.ID_Client;
+        
+    BEGIN
+        FOR comanda_rec IN cursorComenzi LOOP
+            DBMS_OUTPUT.PUT_LINE('ID Comanda: ' || comanda_rec.ID_Comanda || ', Data: ' || comanda_rec.DataComanda || ', Stare: ' || comanda_rec.StareComanda || ', Nume Client: ' || comanda_rec.Nume);
+    
+            DECLARE
+                CURSOR cursorDetaliiComanda(p_ID_Comanda INT) IS
+                    SELECT s.ID_Stoc, s.Cantitate, p.NumeProdus, p.PretVanzare
+                    FROM Stoc s
+                    JOIN Produse p ON s.ID_Produs = p.ID_Produs
+                    WHERE s.ID_Comanda = p_ID_Comanda;
+            BEGIN
+                FOR detalii_rec IN cursorDetaliiComanda(comanda_rec.ID_Comanda) LOOP
+                    DBMS_OUTPUT.PUT_LINE('  Detalii Stoc: ID_Stoc ' || detalii_rec.ID_Stoc || ', Produs: ' || detalii_rec.NumeProdus || ', Cantitate: ' || detalii_rec.Cantitate || ', Pret: ' || detalii_rec.PretVanzare);
+                END LOOP;
+            END;
+        END LOOP; 
+    END RaportComenziBazaDate;
+
+  -- Cerinta 8
+  FUNCTION RaportComenziClientiProduse(p_simulare_exception IN VARCHAR2 DEFAULT NULL) RETURN VARCHAR2 IS
+  TYPE RaportType IS TABLE OF VARCHAR2(4000);
+  v_raport RaportType := RaportType();
+
+  COMENZI_INEXISTENTE EXCEPTION;
+  PRODUSE_INEXISTENTE EXCEPTION; 
+
+BEGIN
+  IF p_simulare_exception = 'PRODUSE_INEXISTENTE' THEN
+    RAISE PRODUSE_INEXISTENTE;
+  END IF;
+
+  IF p_simulare_exception = 'COMENZI_INEXISTENTE' THEN
+    RAISE COMENZI_INEXISTENTE;
+  END IF;
+
+  FOR rec IN (
+    SELECT
+      c.ID_Comanda, c.DataComanda, c.StareComanda,
+      p.NumeProdus, p.Categorie, s.Cantitate
+    FROM
+      Comenzi c
+      JOIN Stoc s ON c.ID_Comanda = s.ID_Comanda
+      JOIN Produse p ON s.ID_Produs = p.ID_Produs
+  ) LOOP
+    v_raport.EXTEND;
+    v_raport(v_raport.LAST) := 'Comanda: ' || rec.ID_Comanda || ', Data: ' || rec.DataComanda || 
+      ', Stare: ' || rec.StareComanda || ', Produs: ' || rec.NumeProdus || 
+      ', Categorie: ' || rec.Categorie || ', Cantitate: ' || rec.Cantitate;
+  END LOOP;
+
+  IF v_raport.COUNT = 0 THEN
+    RAISE COMENZI_INEXISTENTE;
+  ELSIF p_simulare_exception = 'PRODUSE_INEXISTENTE' THEN
+    RAISE PRODUSE_INEXISTENTE;
+  END IF;
+
+  FOR i IN 1..v_raport.COUNT LOOP
+    DBMS_OUTPUT.PUT_LINE(v_raport(i));
+  END LOOP;
+
+  RETURN 'Raport generat cu succes.';
+EXCEPTION
+  WHEN COMENZI_INEXISTENTE THEN
+    RETURN 'Nu exista informatii despre comenzile efectuate.';
+  WHEN PRODUSE_INEXISTENTE THEN
+    RETURN 'Nu exista informatii despre produse.';
+END RaportComenziClientiProduse;
+
+  -- Cerinta 9
+  PROCEDURE RaportAnaliza(p_simulare_scenariu IN VARCHAR2 DEFAULT NULL) AS
+      v_total_valoare_vanzari DECIMAL(10, 2);
+      v_numar_clienti INT;
+      v_medie_pret_vanzare DECIMAL(10, 2);
+      v_total_cantitate_stoc INT;
+      v_medie_reusita_cercetare DECIMAL(5, 2);
+    
+      PROCEDURE SimulareNoData IS
+      BEGIN
+        RAISE NO_DATA_FOUND;
+      END;
+    
+      PROCEDURE SimulareTooManyRows IS
+      BEGIN
+        RAISE TOO_MANY_ROWS;
+      END;
+    
+    BEGIN
+      IF p_simulare_scenariu = 'NO_DATA' THEN
+        SimulareNoData;
+      ELSIF p_simulare_scenariu = 'TOO_MANY_ROWS' THEN
+        SimulareTooManyRows;
+      END IF;
+    
+      SELECT
+        COALESCE(SUM(p.PretVanzare * s.Cantitate), 0),
+        COUNT(DISTINCT cl.ID_Client),
+        COALESCE(AVG(p.PretVanzare), 0),
+        SUM(s.Cantitate),
+        COALESCE(AVG(cd.RataReusita), 0)
+      INTO
+        v_total_valoare_vanzari,
+        v_numar_clienti,
+        v_medie_pret_vanzare,
+        v_total_cantitate_stoc,
+        v_medie_reusita_cercetare
+      FROM
+        Comenzi c
+        JOIN Clienti cl ON c.ID_Client = cl.ID_Client
+        JOIN Stoc s ON c.ID_Comanda = s.ID_Comanda
+        JOIN Produse p ON p.ID_Produs = s.ID_Produs
+        LEFT JOIN CercetareDezvoltare cd ON cl.ID_Client = cd.ID_Reprezentant;
+    
+      DBMS_OUTPUT.PUT_LINE('Total valoare vanzari: ' || v_total_valoare_vanzari);
+      DBMS_OUTPUT.PUT_LINE('Numar total de clienti: ' || v_numar_clienti);
+      DBMS_OUTPUT.PUT_LINE('Media preturilor de vanzare: ' || v_medie_pret_vanzare);
+      DBMS_OUTPUT.PUT_LINE('Total cantitate in stoc: ' || v_total_cantitate_stoc);
+      DBMS_OUTPUT.PUT_LINE('Media ratei de reusita in cercetare: ' || v_medie_reusita_cercetare);
+    
+      EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+          DBMS_OUTPUT.PUT_LINE('Nu s-au gasit date pentru raport.');
+        WHEN TOO_MANY_ROWS THEN
+          DBMS_OUTPUT.PUT_LINE('Prea multe randuri gasite pentru raport.');
+        WHEN OTHERS THEN
+          DBMS_OUTPUT.PUT_LINE('O eroare neasteptata a aparut.');
+    END RaportAnaliza;
+
+END ProiectPachet;
+/
+
+BEGIN
+    ProiectPachet.RaportDetaliiProdus(1); 
+END;
+/
+
+BEGIN
+    ProiectPachet.RaportComenziBazaDate;
+END;
+/
+
+DECLARE
+    v_raport VARCHAR2(4000);
+BEGIN
+    v_raport := ProiectPachet.RaportComenziClientiProduse;
+    DBMS_OUTPUT.PUT_LINE(v_raport);
+END;
+/
+
+BEGIN
+    ProiectPachet.RaportAnaliza;
+END;
+/
+
+
+
+--Cerinta 14
+CREATE OR REPLACE PACKAGE FluxComenzi AS
+
+    TYPE ComandaType IS RECORD (
+        ID_Comanda Comenzi.ID_Comanda%TYPE,
+        DataComanda Comenzi.DataComanda%TYPE,
+        StareComanda Comenzi.StareComanda%TYPE
+    );
+    
+    TYPE ClientType IS RECORD (
+        ID_Client Clienti.ID_Client%TYPE,
+        Nume Clienti.Nume%TYPE,
+        Prenume Clienti.Prenume%TYPE,
+        Adresa Clienti.Adresa%TYPE,
+        NrTelefon Clienti.NrTelefon%TYPE,
+        Email Clienti.Email%TYPE
+    );
+    
+    PROCEDURE AfisareDetaliiComanda(p_ID_Comanda IN Comenzi.ID_Comanda%TYPE);
+    
+    FUNCTION ObtinereDetaliiClient(p_ID_Client IN Clienti.ID_Client%TYPE) RETURN ClientType;
+    
+    PROCEDURE InserareComanda(
+        p_ID_Comanda IN Comenzi.ID_Comanda%TYPE,
+        p_ID_Client IN Clienti.ID_Client%TYPE,
+        p_DataComanda IN Comenzi.DataComanda%TYPE,
+        p_StareComanda IN Comenzi.StareComanda%TYPE
+    );
+    
+    PROCEDURE NumarTotalComenziClient(
+        p_ID_Client IN Clienti.ID_Client%TYPE,
+        p_NumarComenzi OUT NUMBER
+    );
+
+END FluxComenzi;
+/
+
+CREATE OR REPLACE PACKAGE BODY FluxComenzi AS
+
+    PROCEDURE AfisareDetaliiComanda(p_ID_Comanda IN Comenzi.ID_Comanda%TYPE) AS
+        v_Comanda ComandaType;
+    BEGIN
+        SELECT c.ID_Comanda, c.DataComanda, c.StareComanda
+        INTO v_Comanda
+        FROM Comenzi c
+        WHERE c.ID_Comanda = p_ID_Comanda;
+        
+        DBMS_OUTPUT.PUT_LINE('Detalii comanda:');
+        DBMS_OUTPUT.PUT_LINE('ID Comanda: ' || v_Comanda.ID_Comanda);
+        DBMS_OUTPUT.PUT_LINE('Data Comanda: ' || TO_CHAR(v_Comanda.DataComanda, 'DD-MM-YYYY'));
+        DBMS_OUTPUT.PUT_LINE('Stare Comanda: ' || v_Comanda.StareComanda);
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            DBMS_OUTPUT.PUT_LINE('Comanda cu ID-ul ' || p_ID_Comanda || ' nu exista.');
+    END AfisareDetaliiComanda;
+    
+    FUNCTION ObtinereDetaliiClient(p_ID_Client IN Clienti.ID_Client%TYPE) RETURN ClientType AS
+        v_Client ClientType;
+    BEGIN
+        SELECT ID_Client, Nume, Prenume, Adresa, NrTelefon, Email
+        INTO v_Client
+        FROM Clienti
+        WHERE ID_Client = p_ID_Client;
+        
+        RETURN v_Client;
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            RETURN NULL;
+    END ObtinereDetaliiClient;
+    
+    PROCEDURE InserareComanda(
+        p_ID_Comanda IN Comenzi.ID_Comanda%TYPE,
+        p_ID_Client IN Clienti.ID_Client%TYPE,
+        p_DataComanda IN Comenzi.DataComanda%TYPE,
+        p_StareComanda IN Comenzi.StareComanda%TYPE
+    ) AS
+    BEGIN
+        INSERT INTO Comenzi (ID_Comanda, ID_Client, DataComanda, StareComanda)
+        VALUES (p_ID_Comanda, p_ID_Client, p_DataComanda, p_StareComanda);
+        
+        DBMS_OUTPUT.PUT_LINE('Comanda cu ID-ul ' || p_ID_Comanda || ' a fost inserata cu succes.');
+    END InserareComanda;
+    
+    PROCEDURE NumarTotalComenziClient(
+        p_ID_Client IN Clienti.ID_Client%TYPE,
+        p_NumarComenzi OUT NUMBER
+    ) AS
+    BEGIN
+        SELECT COUNT(*)
+        INTO p_NumarComenzi
+        FROM Comenzi
+        WHERE ID_Client = p_ID_Client;
+    END NumarTotalComenziClient;
+
+END FluxComenzi;
+/
+
+DECLARE
+    v_ID_Comanda Comenzi.ID_Comanda%TYPE := 4; 
+BEGIN
+    FluxComenzi.AfisareDetaliiComanda(v_ID_Comanda);
+END;
+/
+
+DECLARE
+    v_ID_Client Clienti.ID_Client%TYPE := 3; 
+    v_Client FluxComenzi.ClientType;
+BEGIN
+    v_Client := FluxComenzi.ObtinereDetaliiClient(v_ID_Client);
+    IF v_Client.ID_Client IS NOT NULL THEN
+        DBMS_OUTPUT.PUT_LINE('Detalii client:');
+        DBMS_OUTPUT.PUT_LINE('ID Client: ' || v_Client.ID_Client);
+        DBMS_OUTPUT.PUT_LINE('Nume: ' || v_Client.Nume);
+        DBMS_OUTPUT.PUT_LINE('Prenume: ' || v_Client.Prenume);
+        DBMS_OUTPUT.PUT_LINE('Adresa: ' || v_Client.Adresa);
+        DBMS_OUTPUT.PUT_LINE('Nr Telefon: ' || v_Client.NrTelefon);
+        DBMS_OUTPUT.PUT_LINE('Email: ' || v_Client.Email);
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Clientul cu ID-ul ' || v_ID_Client || ' nu exista.');
+    END IF;
+END;
+/
+
+BEGIN
+    FluxComenzi.InserareComanda(29, 3, SYSDATE, 'Noua');
+END;
+/
+
+DECLARE
+    v_ID_Client Clienti.ID_Client%TYPE := 2; 
+    v_NumarComenzi NUMBER;
+BEGIN
+    FluxComenzi.NumarTotalComenziClient(v_ID_Client, v_NumarComenzi);
+    DBMS_OUTPUT.PUT_LINE('Numar total comenzi pentru clientul cu ID-ul ' || v_ID_Client || ': ' || v_NumarComenzi);
+END;
+/
+
+
+
+
+
